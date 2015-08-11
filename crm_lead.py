@@ -12,7 +12,7 @@ AVAILABLE_EVENT = [
 
 
 class crm_lead_log(osv.osv):
-    _name = "account.invoice"
+    _name = "crm.lead.log"
     _description = "log for lead"
 
     _columns = {
@@ -39,7 +39,8 @@ class crm_lead(osv.osv):
         crm_lead_log=self.pool.get('crm.lead.log')
         crm_lead_log_vals={}
 
-        crm_lead_log_vals['stage_id']=stage_id;
+        if 'stage_id' in vals :
+            crm_lead_log_vals['stage_id']=vals['stage_id'];
         crm_lead_log_vals['lead_id']=new_id;
         crm_lead_log_vals['name']='Creacion'
         crm_lead_log_vals['action_type']='Creation'            
@@ -53,7 +54,7 @@ class crm_lead(osv.osv):
         crm_lead_log_vals={}
 
         if 'stage_id' in vals :
-            crm_lead_log_vals['stage_id']=stage_id;
+            crm_lead_log_vals['stage_id']=vals['stage_id'];
             crm_lead_log_vals['lead_id']=ids[0];
             crm_lead_log_vals['name']='Cambio de Estado'
             crm_lead_log_vals['action_type']='change state'            
@@ -94,31 +95,4 @@ class crm_phonecall(osv.osv):
 crm_phonecall()
 
 
-'''
-class views_crm_lead_log(osv.osv):
-
-
-    _name = "view.crm.lead.log"
-
-
-    _description = "Log de crm"
-    _auto = False
-    _columns = {
-    }
-
-
-
-
-    def init(self, cr):
-        tools.sql.drop_view_if_exists(cr, 'views_crm_lead_log')
-
-        cr.execute(""" 
-            create or replace view views_crm_lead_log as (
-                        select ai.id,ai.id as invoice_id, ai.partner_id , ai.number , ai.name  ,cl.id as claim_id, cl.name as  crm_claim_name , 
-                        '-' as invoice_line_text 
-                        from account_invoice ai 
-                        left join crm_claim cl on (ai.id=cl.invoice_id) 
-            )
-        """)
-'''
 
