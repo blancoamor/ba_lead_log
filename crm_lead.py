@@ -1,12 +1,13 @@
 from openerp import models, fields, api
 from openerp.osv import fields, osv
+from openerp import tools
 from openerp.tools.translate import _
 
 AVAILABLE_EVENT = [
         ('asignation','Asignacion'),
         ('change state','Cambio de estado'),
         ('call','Llamada'),
-        ('Creation','Creacion'),
+        ('creation','Creacion'),
     ]
 
 
@@ -43,7 +44,7 @@ class crm_lead(osv.osv):
             crm_lead_log_vals['stage_id']=vals['stage_id'];
         crm_lead_log_vals['lead_id']=new_id;
         crm_lead_log_vals['name']='Creacion'
-        crm_lead_log_vals['action_type']='Creation'            
+        crm_lead_log_vals['action_type']='creation'            
         crm_lead_log.create(cr, uid,crm_lead_log_vals,context=None)
 
         return new_id
@@ -93,6 +94,51 @@ class crm_phonecall(osv.osv):
         return new_id
 
 crm_phonecall()
+
+
+class view_crm_lead_timeline(osv.osv):
+
+
+    _name = "view.crm.lead.timeline"
+
+
+    _description = "lead timeline"
+    _auto = False
+    _columns = {
+        'id': fields.integer('ID', readonly=True),
+        'lead_id': fields.many2one('crm.lead', 'Lead'),
+        'creation_date': fields.datetime( 'creation date'),
+        'asignation_date': fields.datetime( 'asignation date'),
+        'call_date': fields.datetime( 'call date'),
+        'close_date': fields.datetime( 'close date'),
+        'goal_date': fields.datetime( 'goal date'),
+        'to_asignation_days': fields.float( 'asignation days'),
+        'to_call_days': fields.float( 'call days'),
+        'to_close_days': fields.float( 'close days'),
+        'to_goal_days': fields.float( 'goal days'),
+
+    }
+
+    def init(self, cr):
+        tools.sql.drop_view_if_exists(cr, 'view_crm_lead_timeline')
+
+        cr.execute("""create or replace view  view_crm_lead_timeline as (
+        select  creation.lead_id as id,  creation.lead_id , creation.write_date as creation_date, 
+        asig.write_date as asignation_date , 
+        call.write_date as call_date, close.write_date as close_date, goal.write_date as goal_date, 
+        DATE_PART('day',asig.write_date::timestamp-creation.write_date::timestamp) as to_asignation_days ,
+        DATE_PART('day',call.write_date::timestamp-creation.write_date::timestamp) as to_call_days ,
+        DATE_PART('day',close.write_date::timestamp-creation.write_date::timestamp) as to_close_days ,
+        DATE_PART('day',goal.write_date::timestamp-creation.write_date::timestamp) as to_goal_days 
+
+        from crm_lead_log creation 
+        left join crm_lead_log asig on (creation.lead_id = asig.lead_id and asig.action_type='asignation') 
+        left join crm_lead_log call on (creation.lead_id = call.lead_id and call.action_type='call') 
+        left join crm_lead_log close on (creation.lead_id = close.lead_id and close.action_type='change state' and close.stage_id=7) 
+        left join crm_lead_log goal on (creation.lead_id = goal.lead_id and goal.action_type='change state' and goal.stage_id=6) 
+
+
+        where creation.action_type='creation')""")
 
 
 
