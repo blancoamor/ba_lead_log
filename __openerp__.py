@@ -34,6 +34,8 @@ Guardo un log de acciones sobre el lead
     'installable': True,
     'data': [
         'crm_lead.xml',
+        'security/ba_lead_log_security.xml',
+        'security/ir.model.access.csv',
 
     ],
     'auto_install': False,

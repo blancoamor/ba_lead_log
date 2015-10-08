@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="blancoamor_sale_man" model="res.groups" context="{'noadmin':True}">
+            <field name="name">blancoamor Sale Man</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="implied_ids" eval="[(4,ref('account.group_account_user'))]"/>
+        </record>
+        <record id="blancoamor_sale_manager" model="res.groups" context="{'noadmin':True}">
+            <field name="name">blancoamor Sale Mananger</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="implied_ids" eval="[(4,ref('account.group_account_user'))]"/>
+        </record>
+
+
+    </data>
+</openerp>
+

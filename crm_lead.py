@@ -112,10 +112,11 @@ class view_crm_lead_timeline(osv.osv):
         'call_date': fields.datetime( 'call date'),
         'close_date': fields.datetime( 'close date'),
         'goal_date': fields.datetime( 'goal date'),
-        'to_asignation_days': fields.float( 'asignation days'),
-        'to_call_days': fields.float( 'call days'),
-        'to_close_days': fields.float( 'close days'),
-        'to_goal_days': fields.float( 'goal days'),
+        'to_asignation_days': fields.float( 'asignation days',group_operator="avg"),
+        'to_call_days': fields.float( 'call days',group_operator="avg"),
+        'to_close_days': fields.float( 'close days',group_operator="avg"),
+        'to_goal_days': fields.float( 'goal days',group_operator="avg"),
+        'user_id': fields.many2one('res.users', 'user'),
 
     }
 
@@ -129,14 +130,15 @@ class view_crm_lead_timeline(osv.osv):
         DATE_PART('day',asig.write_date::timestamp-creation.write_date::timestamp) as to_asignation_days ,
         DATE_PART('day',call.write_date::timestamp-creation.write_date::timestamp) as to_call_days ,
         DATE_PART('day',close.write_date::timestamp-creation.write_date::timestamp) as to_close_days ,
-        DATE_PART('day',goal.write_date::timestamp-creation.write_date::timestamp) as to_goal_days 
+        DATE_PART('day',goal.write_date::timestamp-creation.write_date::timestamp) as to_goal_days ,
+        crm_lead.user_id
 
         from crm_lead_log creation 
         left join crm_lead_log asig on (creation.lead_id = asig.lead_id and asig.action_type='asignation') 
         left join crm_lead_log call on (creation.lead_id = call.lead_id and call.action_type='call') 
         left join crm_lead_log close on (creation.lead_id = close.lead_id and close.action_type='change state' and close.stage_id=7) 
         left join crm_lead_log goal on (creation.lead_id = goal.lead_id and goal.action_type='change state' and goal.stage_id=6) 
-
+        left join crm_lead as crm_lead on (crm_lead.id=creation.lead_id)
 
         where creation.action_type='creation')""")
 
