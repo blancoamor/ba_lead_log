@@ -80,7 +80,11 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="view_crm_lead_timeline_graph"/>
         </record>
-        <menuitem action="view_crm_lead_timeline_action" id="view_menu_crm_lead_timeline_action" parent="base.menu_sales" sequence="1"/>
+        <menuitem name="Leads timeline" id="view_menu_crm_lead_timeline_action1"
+            groups="base.group_sale_manager"
+            parent="base.next_id_64" action="view_crm_lead_timeline_action" sequence="1"/>
+
+
         <record id="stage_lead3" model="crm.case.stage">
             <field name="name">Contactado</field>
             <field name="case_default">1</field>

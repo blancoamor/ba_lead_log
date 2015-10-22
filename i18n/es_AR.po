@@ -1,0 +1,233 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ba_lead_log
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-08 18:53+0000\n"
+"PO-Revision-Date: 2015-10-08 15:59-0300\n"
+"Last-Translator: Filoquin <filoquin@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,action_type:0
+msgid "Action Type"
+msgstr "Action Type"
+
+#. module: ba_lead_log
+#: selection:crm.lead.log,action_type:0
+msgid "Asignacion"
+msgstr "Asignacion"
+
+#. module: ba_lead_log
+#: selection:crm.lead.log,action_type:0
+msgid "Cambio de estado"
+msgstr "Cambio de estado"
+
+#. module: ba_lead_log
+#: model:crm.case.stage,name:ba_lead_log.stage_lead3
+msgid "Contactado"
+msgstr "Contactado"
+
+#. module: ba_lead_log
+#: selection:crm.lead.log,action_type:0
+msgid "Creacion"
+msgstr "Creacion"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_graph
+msgid "Events"
+msgstr "Eventos"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,id:0 field:view.crm.lead.timeline,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,write_uid:0
+msgid "Last Updated by"
+msgstr "Actualizado por"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,write_date:0
+msgid "Last Updated on"
+msgstr "Actualizado en"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,lead_id:0 field:view.crm.lead.timeline,lead_id:0
+msgid "Lead"
+msgstr "Oportunidad"
+
+#. module: ba_lead_log
+#: model:ir.actions.act_window,name:ba_lead_log.crm_lead_log_action
+#: model:ir.ui.menu,name:ba_lead_log.menu_crm_lead_log_action
+msgid "Lead Event"
+msgstr "Evento"
+
+#. module: ba_lead_log
+#: model:ir.actions.act_window,name:ba_lead_log.view_crm_lead_timeline_action
+msgid "Lead timeline"
+msgstr "Estadistica de oportunidades"
+
+#. module: ba_lead_log
+#: model:ir.model,name:ba_lead_log.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Iniciativa/Oportunidad"
+
+#. module: ba_lead_log
+#: model:ir.ui.menu,name:ba_lead_log.view_menu_crm_lead_timeline_action1
+msgid "Leads timeline"
+msgstr "Estadistica de oportunidades"
+
+#. module: ba_lead_log
+#: selection:crm.lead.log,action_type:0
+msgid "Llamada"
+msgstr "Llamada"
+
+#. module: ba_lead_log
+#: model:ir.model,name:ba_lead_log.model_crm_phonecall
+msgid "Phonecall"
+msgstr "Llamada telefónica"
+
+#. module: ba_lead_log
+#: model:crm.case.stage,name:ba_lead_log.stage_lead4
+msgid "Presupuestado"
+msgstr "Presupuestado"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_filter
+msgid "Seach event"
+msgstr "Seach event"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_tree_view
+msgid "Usuario"
+msgstr "Usuario"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_filter
+msgid "Week"
+msgstr "Semana"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,asignation_date:0
+msgid "asignation date"
+msgstr "asignation date"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,to_asignation_days:0
+msgid "asignation days"
+msgstr "asignation days"
+
+#. module: ba_lead_log
+#: model:res.groups,name:ba_lead_log.blancoamor_sale_man
+msgid "blancoamor Sale Man"
+msgstr "blancoamor Sale Man"
+
+#. module: ba_lead_log
+#: model:res.groups,name:ba_lead_log.blancoamor_sale_manager
+msgid "blancoamor Sale Mananger"
+msgstr "blancoamor Sale Mananger"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,call_date:0
+msgid "call date"
+msgstr "Dia de la llamada"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,to_call_days:0
+msgid "call days"
+msgstr "Dias de la llamada"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,close_date:0
+msgid "close date"
+msgstr "Fecha cierre"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,to_close_days:0
+msgid "close days"
+msgstr "Dias cierre"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,creation_date:0
+msgid "creation date"
+msgstr "creation date"
+
+#. module: ba_lead_log
+#: view:crm.lead.log:ba_lead_log.crm_lead_log_tree_view
+msgid "crm_lead_log"
+msgstr "crm_lead_log"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_tree_view
+msgid "crm_lead_timeline"
+msgstr "crm_lead_timeline"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_filter
+msgid "day"
+msgstr "Dia"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,goal_date:0
+msgid "goal date"
+msgstr "Fecha de ganado"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,to_goal_days:0
+msgid "goal days"
+msgstr "Dias de ganado"
+
+#. module: ba_lead_log
+#: model:ir.model,name:ba_lead_log.model_view_crm_lead_timeline
+msgid "lead timeline"
+msgstr "Linea de iempo"
+
+#. module: ba_lead_log
+#: model:ir.model,name:ba_lead_log.model_crm_lead_log
+msgid "log for lead"
+msgstr "log for lead"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,name:0
+msgid "name"
+msgstr "name"
+
+#. module: ba_lead_log
+#: view:view.crm.lead.timeline:ba_lead_log.view_crm_lead_timeline_tree_view
+msgid "promedio"
+msgstr "promedio"
+
+#. module: ba_lead_log
+#: field:crm.lead.log,stage_id:0
+msgid "state"
+msgstr "estado"
+
+#. module: ba_lead_log
+#: field:view.crm.lead.timeline,user_id:0
+msgid "user"
+msgstr "usuario"
