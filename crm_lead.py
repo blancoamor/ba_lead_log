@@ -29,6 +29,17 @@ crm_lead_log()
 
 
 class crm_lead(osv.osv):
+
+    def mark_as_spam(self, cr, uid, ids, context=None):
+        #stage_id
+        vals={'active':False}
+        return self.write( cr, uid, ids, vals, context=context)
+
+    def not_is_spam(self, cr, uid, ids, context=None):
+        #stage_id
+        vals={'active':True}
+        return self.write( cr, uid, ids, vals, context=context)
+
     _inherit = "crm.lead"
 
     _columns = {}
@@ -140,7 +151,7 @@ class view_crm_lead_timeline(osv.osv):
         left join crm_lead_log goal on (creation.lead_id = goal.lead_id and goal.action_type='change state' and goal.stage_id=6) 
         left join crm_lead as crm_lead on (crm_lead.id=creation.lead_id)
 
-        where creation.action_type='creation')""")
+        where creation.action_type='creation' and crm_lead.active=True)""")
 
 
 

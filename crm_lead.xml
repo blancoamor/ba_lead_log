@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <record id="ba_crm_case_form_view_leads" model="ir.ui.view">
+            <field name="name">crm.lead.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Convert to Opportunity']" position="after">
+                    <button help="Marcar como spam" name="mark_as_spam" string="Spam" groups="ba_conf.blancoamor_mkt_mananger" attrs="{'invisible': [('active', '=', False)]}" type="object"/>
+                    <button help="No es spam" name="not_is_spam" string="Not Spam"  groups="ba_conf.blancoamor_mkt_mananger" attrs="{'invisible': [('active', '=', True)]}" type="object"/>
+                </xpath>
+            </field>
+        </record>
         <record id="crm_lead_log_tree_view" model="ir.ui.view">
             <field name="name">crm.lead.log.tree</field>
             <field name="model">crm.lead.log</field>
@@ -24,7 +35,6 @@
             <field name="view_id" ref="crm_lead_log_tree_view"/>
         </record>
         <menuitem action="crm_lead_log_action" id="menu_crm_lead_log_action" parent="base.menu_config" sequence="1"/>
-
         <record id="view_crm_lead_timeline_tree_view" model="ir.ui.view">
             <field name="name">view.crm.lead.timeline.tree</field>
             <field name="model">view.crm.lead.timeline</field>
@@ -35,17 +45,15 @@
                     <field name="asignation_date"/>
                     <field name="call_date"/>
                     <field name="close_date"/>
-                    <field name="goal_date" />
-                    <field name="to_asignation_days"  sum="promedio"/>
-                    <field name="to_call_days"  sum="promedio"/>
-                    <field name="to_close_days"  sum="promedio"/>
-                    <field name="to_goal_days"  sum="promedio"/>
+                    <field name="goal_date"/>
+                    <field name="to_asignation_days" sum="promedio"/>
+                    <field name="to_call_days" sum="promedio"/>
+                    <field name="to_close_days" sum="promedio"/>
+                    <field name="to_goal_days" sum="promedio"/>
                     <field name="user_id" string="Usuario"/>
                 </tree>
             </field>
         </record>
-
-
         <record id="view_crm_lead_timeline_graph" model="ir.ui.view">
             <field name="name">view.crm.lead.timeline.graph</field>
             <field name="model">view.crm.lead.timeline</field>
@@ -53,10 +61,10 @@
                 <graph string="Events" type="pivot">
                     <field interval="month" name="creation_date"/>
                     <field name="user_id"/>
-                    <field name="to_asignation_days" type='measure' />
-                    <field name="to_call_days" type='measure'  />
-                    <field name="to_close_days" type='measure' />
-                    <field name="to_goal_days" type='measure'  />
+                    <field name="to_asignation_days" type="measure"/>
+                    <field name="to_call_days" type="measure"/>
+                    <field name="to_close_days" type="measure"/>
+                    <field name="to_goal_days" type="measure"/>
                 </graph>
             </field>
         </record>
@@ -80,11 +88,7 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="view_crm_lead_timeline_graph"/>
         </record>
-        <menuitem name="Leads timeline" id="view_menu_crm_lead_timeline_action1"
-            groups="base.group_sale_manager"
-            parent="base.next_id_64" action="view_crm_lead_timeline_action" sequence="1"/>
-
-
+        <menuitem action="view_crm_lead_timeline_action" groups="base.group_sale_manager" id="view_menu_crm_lead_timeline_action1" name="Leads timeline" parent="base.next_id_64" sequence="1"/>
         <record id="stage_lead3" model="crm.case.stage">
             <field name="name">Contactado</field>
             <field name="case_default">1</field>
