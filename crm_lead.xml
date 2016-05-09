@@ -35,6 +35,8 @@
             <field name="view_id" ref="crm_lead_log_tree_view"/>
         </record>
         <menuitem action="crm_lead_log_action" id="menu_crm_lead_log_action" parent="base.menu_config" sequence="1"/>
+
+
         <record id="view_crm_lead_timeline_tree_view" model="ir.ui.view">
             <field name="name">view.crm.lead.timeline.tree</field>
             <field name="model">view.crm.lead.timeline</field>
@@ -73,9 +75,14 @@
             <field name="model">view.crm.lead.timeline</field>
             <field name="arch" type="xml">
                 <search string="Seach event">
+                    <field  name="source_id"/>
+                    <filter string="this month" name="this_mont" domain="[('creation_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="last year" name="last_year" domain="[('creation_date','&gt;=',(context_today()-relativedelta(months=12)).strftime('%%Y-%%m-01'))]"/>
+
                     <group expand="0" string="Group By">
                         <filter context="{'group_by':'creation_date:week'}" help="Week" string="Week"/>
-                        <filter context="{'group_by':'creation_date:day'}" help="day" string="day"/>
+                        <filter context="{'group_by':'creation_date:week'}" help="Week" string="Week"/>
+                        <filter context="{'group_by':'source_id'}" help="source" string="Origen"/>
                     </group>
                 </search>
             </field>
@@ -86,9 +93,82 @@
             <field name="res_model">view.crm.lead.timeline</field>
             <field name="view_mode">graph,tree</field>
             <field name="view_type">form</field>
+            <field name="context">{'search_default_this_mont':1}</field>
+
+            <field name="context">{'search_default_this_mont':1}</field>
             <field name="view_id" ref="view_crm_lead_timeline_graph"/>
         </record>
         <menuitem action="view_crm_lead_timeline_action" groups="base.group_sale_manager" id="view_menu_crm_lead_timeline_action1" name="Leads timeline" parent="base.next_id_64" sequence="1"/>
+
+
+
+        <record id="view_crm_lead_gestion_tree_view" model="ir.ui.view">
+            <field name="name">view.crm.lead.gestion.tree</field>
+            <field name="model">view.crm.lead.gestion</field>
+            <field name="arch" type="xml">
+                <tree string="crm_lead_gestion">
+                    <field name="lead_id"/>
+                    <field name="creation_date"/>
+                    <field name="total"/>
+                    <field name="not_active"/>
+                    <field name="day"/>
+                    <field name="fweek" sum="promedio"/>
+                    <field name="sweek" sum="promedio"/>
+                    <field name="month" sum="promedio"/>
+                    <field name="smonth" sum="promedio"/>
+                    <field name="user_id" string="Usuario"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_crm_lead_gestion_graph" model="ir.ui.view">
+            <field name="name">view.crm.lead.gestion.graph</field>
+            <field name="model">view.crm.lead.gestion</field>
+            <field name="arch" type="xml">
+                <graph string="Events" type="pivot">
+                    <field interval="month" name="creation_date"/>
+                    <field name="user_id"/>
+                    <field name="total" type="measure"/>
+                    <field name="not_active" type="measure"/>
+                    <field name="day" type="measure"/>
+                    <field name="fweek" type="measure"/>
+                    <field name="sweek" type="measure"/>
+                    <field name="month" type="measure"/>
+                    <field name="smonth" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record id="view_crm_lead_gestion_filter" model="ir.ui.view">
+            <field name="name">view.crm.lead.gestion.select</field>
+            <field name="model">view.crm.lead.gestion</field>
+            <field name="arch" type="xml">
+                <search string="Seach event">
+                    <field  name="source_id"/>
+                    <filter string="this month" name="this_mont" domain="[('creation_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="last year" name="last_year" domain="[('creation_date','&gt;=',(context_today()-relativedelta(months=12)).strftime('%%Y-%%m-01'))]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter context="{'group_by':'creation_date:week'}" help="Week" string="Week"/>
+                        <filter context="{'group_by':'creation_date:week'}" help="Week" string="Week"/>
+                        <filter context="{'group_by':'source_id'}" help="source" string="Origen"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_crm_lead_gestion_action" model="ir.actions.act_window">
+            <field name="name">Lead gestion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">view.crm.lead.gestion</field>
+            <field name="view_mode">graph,tree</field>
+            <field name="view_type">form</field>
+
+            <field name="context">{'search_default_this_mont':1}</field>
+            <field name="view_id" ref="view_crm_lead_gestion_graph"/>
+        </record>
+        <menuitem action="view_crm_lead_gestion_action" groups="base.group_sale_manager" id="view_menu_crm_lead_gestion_action1" name="Gestion de oportunidades" parent="base.next_id_64" sequence="1"/>
+   
+
+
+
         <record id="stage_lead3" model="crm.case.stage">
             <field name="name">Contactado</field>
             <field name="case_default">1</field>

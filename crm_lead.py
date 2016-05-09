@@ -119,6 +119,7 @@ class view_crm_lead_timeline(osv.osv):
         'id': fields.integer('ID', readonly=True),
         'lead_id': fields.many2one('crm.lead', 'Lead'),
         'creation_date': fields.datetime( 'creation date'),
+        'source_id': fields.many2one('crm.tracking.source', 'Source', help="This is the source of the link Ex: Search Engine, another domain, or name of email list"),
         'asignation_date': fields.datetime( 'asignation date'),
         'call_date': fields.datetime( 'call date'),
         'close_date': fields.datetime( 'close date'),
@@ -135,7 +136,7 @@ class view_crm_lead_timeline(osv.osv):
         tools.sql.drop_view_if_exists(cr, 'view_crm_lead_timeline')
 
         cr.execute("""create or replace view  view_crm_lead_timeline as (
-        select  creation.lead_id as id,  creation.lead_id , creation.write_date as creation_date, 
+        select  creation.lead_id as id,  creation.lead_id , creation.write_date as creation_date,crm_lead.source_id as source_id, 
         asig.write_date as asignation_date , 
         call.write_date as call_date, close.write_date as close_date, goal.write_date as goal_date, 
         DATE_PART('day',asig.write_date::timestamp-creation.write_date::timestamp) as to_asignation_days ,
@@ -153,5 +154,59 @@ class view_crm_lead_timeline(osv.osv):
 
         where creation.action_type='creation' and crm_lead.active=True)""")
 
+class view_crm_lead_gestion(osv.osv):
+
+
+    _name = "view.crm.lead.gestion"
+
+
+    _description = "gestion de leads"
+    _auto = False
+    _columns = {
+        'id': fields.integer('ID', readonly=True),
+        'lead_id': fields.many2one('crm.lead', 'Lead'),
+        'creation_date': fields.datetime( 'creation date'),
+        'source_id': fields.many2one('crm.tracking.source', 'Source', help="This is the source of the link Ex: Search Engine, another domain, or name of email list"),
+        'call_date': fields.datetime( 'call date'),
+        'write_date': fields.datetime( 'write_date'),
+
+        'total': fields.float( 'Total',group_operator="sum"),
+        'not_active': fields.float( 'Sin Gestionar',group_operator="sum"),
+        'day': fields.float( 'Un dia',group_operator="sum"),
+        'fweek': fields.float( 'Una Semana',group_operator="sum"),
+        'sweek': fields.float( 'Dos Semanas',group_operator="sum"),
+        'month': fields.float( 'Un mes',group_operator="sum"),
+        'smonth': fields.float( 'Mas de un mes',group_operator="sum"),
+
+
+        'user_id': fields.many2one('res.users', 'user'),
+
+    }
+
+    def init(self, cr):
+        tools.sql.drop_view_if_exists(cr, 'view_crm_lead_gestion')
+
+        cr.execute("""create or replace view  view_crm_lead_gestion as (
+            select creation.lead_id as id,  creation.lead_id , creation.write_date as creation_date,crm_lead.source_id as source_id ,
+             change_state.write_date,1 as total,
+              DATE_PART('day',creation.write_date::timestamp-change_state.write_date::timestamp) as first_change_days ,
+
+            case when DATE_PART('day',creation.write_date::timestamp-change_state.write_date::timestamp) is Null then 1  else 0 end  as not_active,
+            case when DATE_PART('day',creation.write_date::timestamp-change_state.write_date::timestamp) < 2 then 1  else 0 end  as day ,
+            case when DATE_PART('day',creation.write_date::timestamp-change_state.write_date::timestamp) BETWEEN 1 and 7 then 1  else 0 end  as fweek,
+            case when DATE_PART('day',creation.write_date::timestamp-change_state.write_date::timestamp) BETWEEN 7 and 15 then 1  else 0 end  as sweek,
+            case when DATE_PART('day',creation.write_date::timestamp-change_state.write_date::timestamp) BETWEEN 15 and 30 then 1  else 0 end  as month,
+            case when DATE_PART('day',creation.write_date::timestamp-change_state.write_date::timestamp) > 30 then 1  else 0 end  as smonth,
+
+            crm_lead.user_id
+
+            from crm_lead_log as creation 
+            left join (
+                select lead_id , min(write_date) write_date from  crm_lead_log where action_type='change state' group by lead_id
+            ) as change_state on (change_state.lead_id=creation.lead_id)
+            join crm_lead as crm_lead on (crm_lead.id=creation.lead_id)
+            where creation.action_type='creation' and crm_lead.active=True
+
+        )""")
 
 
